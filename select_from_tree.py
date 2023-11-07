@@ -43,7 +43,7 @@ for record in SeqIO.parse(args.s, "fasta"):
 	
 	# looking for full matches between tree tips and headers
 	if header in seq_names:
-		selected_seqs.append(SeqRecord.SeqRecord(id=header, seq=record.seq))
+		selected_seqs.append(SeqRecord.SeqRecord(id=header, seq=record.seq, description=""))
 		seq_names.remove(header)
 		continue
 
