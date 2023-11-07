@@ -6,7 +6,6 @@ from Bio import Phylo
 from Bio import SeqIO
 from Bio import SeqRecord
 from Bio import Seq
-import re
 import argparse
 
 def seq_sim(seq1: str, seq2: str) -> float:
