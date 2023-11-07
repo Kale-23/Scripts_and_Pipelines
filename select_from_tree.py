@@ -24,21 +24,21 @@ def seq_sim_score(seq1: str, seq2: str, sim_score: float) -> Tuple[bool, float]:
 # taking arguments
 parser = argparse.ArgumentParser(description="use tree tip names to select sequences from fasta file")
 
-parser.add_argument("-tree", "-t", required=True, type=str, help="input tree file")
-parser.add_argument("-filetype", "-ft", type=str, default="newick", help="tree file type, defaults to newick")
-parser.add_argument("-seqs", "-s", required=True, type=str, help="input fasta file to select sequences from")
-parser.add_argument("-outfile", "-o", required=True, type=str, help="name of output fasta")
-parser.add_argument("-p", type=float, help="enables partial matches and sets threshold for jaccardian similarity between headers and tips")
+parser.add_argument("-t", "-tree", required=True, type=str, help="input tree file")
+parser.add_argument("-ft", "-filetype", type=str, default="newick", help="tree file type, defaults to newick")
+parser.add_argument("-s", "-seqs", required=True, type=str, help="input fasta file to select sequences from")
+parser.add_argument("-o", "-outfile", required=True, type=str, help="name of output fasta")
+parser.add_argument("-p", "-partial-match", type=float, help="enables partial matches and sets threshold for jaccardian similarity between headers and tips")
 
 args = parser.parse_args()
 
 # reading in tree and selecting tip names
-tree = Phylo.read(args.tree, args.filetype) 
+tree = Phylo.read(args.t, args.ft) 
 seq_names = set(tip.name for tip in tree.get_terminals())
 
 # reading in fasta file and searching for matching headers
 selected_seqs = []
-for record in SeqIO.parse(args.seqs, "fasta"):
+for record in SeqIO.parse(args.s, "fasta"):
 	header = record.id
 	
 	# looking for full matches between tree tips and headers
@@ -75,6 +75,4 @@ else:
 	print("all sequences found!")
 
 # write output file		
-SeqIO.write(selected_seqs, args.outfile, "fasta")
-
-
+SeqIO.write(selected_seqs, args.o, "fasta")
