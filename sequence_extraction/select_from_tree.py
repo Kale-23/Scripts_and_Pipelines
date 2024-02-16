@@ -53,7 +53,7 @@ for record in SeqIO.parse(args.s, "fasta"):
 		for seq in seq_names:
 			higher, score = seq_sim_score(header, seq, args.p)
 			if higher: 
-				print(f"partial match found: {header}, {seq}, {score}")
+				print(f"\tpartial match found: {header}, {seq}, {score}")
 	
 				if highest_score is None:
 					highest_score = (score, seq) 

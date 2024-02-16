@@ -1,0 +1,17 @@
+#! /bin/bash
+
+#BATCH --ntasks=1
+
+## default 24 threads.
+##SBATCH --cpus-per-task=2
+
+## More than 128G
+##SBATCH --mem=512000
+
+#SBATCH --job-name="macse"
+#SBATCH --output=no_refine_test.log
+#BATCH --exclude=node117,node118
+
+seq="./gamma_tn_10/ed3.fa"
+
+java -jar macse_v2.07.jar -prog alignSequences -seq $seq -out_NT ed4_nt.fa -out_AA ed4_aa.fa -max_refine_iter 0

@@ -1,7 +1,7 @@
 #! /bin/bash
 
 #SBATCH --job-name="TransDecode"
-#SBATCH --output="TransDecode_individuals_1.log"
+#SBATCH --output="TransDecode.log"
 
 ##SBATCH --cpus-per-task=2
 ##SBATCH --mem=128000

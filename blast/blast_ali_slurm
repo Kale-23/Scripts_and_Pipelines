@@ -1,0 +1,102 @@
+#!/bin/bash
+
+#SBATCH --ntasks=1
+
+#SBATCH --job-name="blast"
+#SBATCH --output=%j-blast.log
+#SBATCH --exclude=node117,node118
+
+# Usage message
+usage() {
+	echo "Usage: $(basename "$0") ARG1 ARG2 ARG3 ARG4"
+	echo "generates fasta file of unique sequences aligned to query using BLAST"
+	echo "setup to run directly with sbatch"
+	echo ""
+	echo "Options:"
+	echo "  -h, --help      display this help message and exit"
+	echo ""
+	echo "Arguments:"
+	echo "  ARG1            query sequence in fasta format"
+	echo "  ARG2            blast database directory"
+	echo "  ARG3            original fasta files directory"
+	echo "  ARG4            blast command to run (blastn|blastx|blastp|tblastn)"
+	echo ""
+	exit 1
+}
+
+# Parse command line options
+while [[ $# -gt 0 ]]; do
+	case "$1" in
+	-h | --help)
+		usage
+		;;
+	*)
+		break
+		;;
+	esac
+done
+
+# Check for the correct number of arguments
+if [[ "$#" -ne 4 ]]; then
+	echo "Error: Incorrect number of arguments."
+	usage
+fi
+
+module purge
+module load linuxbrew/colsa
+
+# script
+for fasta in $2/*.fasta $2/*.pep; do
+	if [[ -f "$fasta" ]]; then
+		echo "BLASTING  $fasta ..."
+		$4 -query $1 -db $fasta -out ${fasta%.}_ref_blastout -outfmt 6 -max_target_seqs 100 -evalue 0.00001 -num_threads 24
+	fi
+done
+
+mkdir blastout
+
+mv $2/*blastout ./blastout/
+
+#2 pull accs from blastout
+
+for i in ./blastout/*blastout; do
+	echo "getting hit accessions  $i ..."
+	cut -f2 $i >${i%.}_hits
+done
+
+mkdir hit1_accessions
+
+mv ./blastout/*hits ./hit1_accessions
+
+#3 pull seqs from blastout
+
+for hitfile in ./hit1_accessions/*_ref_blastout_hits; do
+	perl -p -e 's/\>//g' $hitfile >temp
+	filenamefull=${hitfile##*/}
+	filename="${filenamefull%_ref_blastout_hits*}"
+	echo "pull FASTA seqs from  $filename ..."
+	~/scripts/selectSeqs.pl -f temp $3/$filename >>$filename
+	rm temp
+done
+
+# move hit files to own directory
+mkdir hits_fasta
+for file in *.fasta *.pep; do
+	if [ -f "$file" ]; then
+		mv "$file" ./hits_fasta
+	fi
+done
+
+cat hits_fasta/* >ed1.fa
+
+cd-hit -i ed1.fa -o ed2.fa -c 1.00 -n 5 #cdhit --> looks for and removes redundant seq - c is threshold
+
+cat ed2.fa $1 >ed3.fa #adding in bait file
+
+#mafft --auto ed3.fa > ed4.fa    #mafft aligning my total file that just when thru cdhit
+
+#mkdir rax     #the $1/rax will make a nested directory within $1 directory.... name it rax because you are going to run raxml with this alignment
+
+#mv *.fa rax
+
+#rm *.clstr

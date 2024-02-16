@@ -1,0 +1,32 @@
+#! /usr/bin/env python3
+
+import os
+import argparse
+
+comp = "_comp"
+
+parser = argparse.ArgumentParser(description = "generalized fasta header changer")
+parser.add_argument("directory", type=str, help="input directory")
+parser.add_argument("output", type=str, help="output file")
+
+args = parser.parse_args()
+
+for entry in os.scandir(args.directory):
+	if entry.is_file():
+		try:
+			lines = []
+			with open(entry, "r") as file:
+				for line in file:
+					lines.append(line.strip())	
+			mod_lines = []
+			for line in lines:
+				if line.startswith(">"):
+					mod_lines.append(line + comp + "\n")
+					continue
+				mod_lines.append(line + "\n")
+			with open(args.output, "a") as file:
+				file.writelines(mod_lines)
+		except IOError:
+			print("error with a file")
+		
+

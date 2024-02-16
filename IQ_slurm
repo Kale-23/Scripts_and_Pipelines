@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=24
+#SBATCH --job-name="iqtree"
+#SBATCH --output=tree-%j.log
+#SBATCH --exclude=node117,node118
+
+module purge
+module load linuxbrew/colsa
+
+iqtree -s $1 -m GTR -alrt 1000 -nt 24 -redo
+

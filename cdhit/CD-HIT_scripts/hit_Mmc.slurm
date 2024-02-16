@@ -10,4 +10,4 @@
 module purge
 module load linuxbrew/colsa
 
-cd-hit -i ./M_mcmillinae.TRINITY.fasta -o ./M_mcmillinae.TRINITY.hit.fasta -c 0.98 -n 5 -T 0 -M 120000
+cd-hit -i ./M_mcmillanae.TRINITY.fasta -o ./M_mcmillanae.TRINITY.hit.fasta -c 0.98 -n 5 -T 0 -M 120000

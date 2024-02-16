@@ -1,0 +1,17 @@
+#! /bin/bash
+
+#SBATCH --ntasks=1
+
+## default 24 threads.
+##SBATCH --cpus-per-task=2
+
+## More than 128G
+##SBATCH --mem=512000
+
+#SBATCH --job-name="macse"
+#SBATCH --output=macse-%j.log
+#BATCH --exclude=node117,node118
+
+filename="${1%.*}"
+
+java -jar ~/scripts/macse_v2.07.jar -prog alignSequences -seq $1 -out_NT "$filename"_aligned_NT.fasta -out_AA "$filename"_aligned_AA.fasta
