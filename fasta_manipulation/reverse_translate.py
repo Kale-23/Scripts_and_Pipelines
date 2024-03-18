@@ -11,8 +11,8 @@ def pep_to_nucl(input_file, output_file):
 
         nucleotide_records = []
         for record in peptide_records:
-            peptide_seq = str(record.seq)
-            dna_seq = Seq(peptide_seq, "generic_protein").back_transcribe()
+            peptide_seq = record.seq
+            dna_seq = peptide_seq.back_transcribe()
             print(dna_seq)
             nucleotide_record = SeqRecord(dna_seq, id=record.id, description=record.description)
             nucleotide_records.append(nucleotide_record)

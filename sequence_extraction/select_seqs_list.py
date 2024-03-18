@@ -5,7 +5,7 @@ import argparse
 from Bio import SeqIO
 
 # taking arguments
-parser = argparse.ArgumentParser(description="select sequences from blast output")
+parser = argparse.ArgumentParser(description="select sequences from list of fasta headers")
 
 parser.add_argument("-f", required=True, type=str, help="file of fasta headers")
 parser.add_argument("-s", "-seqs", required=True, type=str, help="directory of fasta files to search headers for")

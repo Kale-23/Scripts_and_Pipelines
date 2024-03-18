@@ -9,9 +9,7 @@
 ##SBATCH --mem=512000
 
 #SBATCH --job-name="macse"
-#SBATCH --output=macse-%j.log
+#SBATCH --output=%j_macse.log
 #BATCH --exclude=node117,node118
 
-filename="${1%.*}"
-
-java -jar ~/scripts/macse_v2.07.jar -prog alignSequences -seq $1 -out_NT "$filename"_aligned_NT.fasta -out_AA "$filename"_aligned_AA.fasta
+java -jar ../../../macse_v2.07.jar -prog enrichAlignment -align alpha_nn_10_nt_alignment.fasta -seq ES_alpha_skin_slime.fasta
