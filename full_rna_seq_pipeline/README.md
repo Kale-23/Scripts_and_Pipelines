@@ -1,0 +1,1 @@
+OLD, new pipeline is [here](../rna_seq_pipeline/)

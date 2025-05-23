@@ -1,0 +1,1 @@
+updated RNA seq pipeline with main analysis using [edgeR](https://pubmed.ncbi.nlm.nih.gov/19910308/)

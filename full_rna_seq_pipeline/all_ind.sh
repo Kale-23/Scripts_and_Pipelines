@@ -1,5 +1,4 @@
 #! /bin/bash
-
 JUST_STATS=$1
 
 for i in ~/Desktop/newer/*; do

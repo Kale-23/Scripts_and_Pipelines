@@ -38,10 +38,10 @@ print("------------------------------------------------------")
 print("-----------------grabbing orthogroups-----------------")
 print("------------------------------------------------------")
 
-alpha_seqs <- read.csv("~/Desktop/Orthofinder/alpha_seqs.txt", header = FALSE)
+alpha_seqs <- read.csv("~/Desktop/Personal_Research/Orthofinder/alpha_seqs.txt", header = FALSE)
 # use cogeqc to grab orthogroups
 #orthogroups <- read_orthogroups("~/Desktop/Orthofinder/Orthogroups_OLD_RUN.tsv")
-orthogroups <- read_orthogroups("~/Desktop/Orthofinder/Phylogenetic_Hierarchical_Orthogroups/N0.tsv")
+orthogroups <- read_orthogroups("~/Desktop/Personal_Research/Orthofinder/Phylogenetic_Hierarchical_Orthogroups/N0.tsv")
 
 # select the human orthogroups
 human_orthogroups <- orthogroups |> 
@@ -218,7 +218,7 @@ print("-----------labeled MA plot int fil output-------------")
 print("------------------------------------------------------")
 
 # HGNC intermediate filament list
-int_fils <- read_delim("~/Desktop/Orthofinder/group-607.csv", delim=",")
+int_fils <- read_delim("~/Desktop/Personal_Research/Orthofinder/group-607.csv", delim=",")
 int_fils <- int_fils |> 
     select(`Approved symbol`)
 
@@ -252,7 +252,7 @@ print("--------labeled MA plot glycoprotein output-----------")
 print("------------------------------------------------------")
 
 # glycoproteins https://beta.glycosmos.org/glycoproteins/index?page=2
-glyco <- read_delim("~/Desktop/Orthofinder/glycoproteinDB.csv", delim=",")
+glyco <- read_delim("~/Desktop/Personal_Research/Orthofinder/glycoproteinDB.csv", delim=",")
 glyco <- glyco |> 
     select(`Protein Name`, `Gene Symbol`, Species, `No. of Glycosylation Sites`) |> 
     filter(grepl("Homo sapiens", Species)) |> 
@@ -291,7 +291,7 @@ test |>
         #theme(legend.position="none")
 ggsave(filename=paste0(cd, "/Labeled_MA_glycosylation_sites.pdf"), device="pdf", dpi=300)
 
-mucins <- read_delim("~/Desktop/Orthofinder/group-648.csv", delim=",")
+mucins <- read_delim("~/Desktop/Personal_Research/Orthofinder/group-648.csv", delim=",")
 mucins <- mucins |>
     select(`Approved symbol`)
 
